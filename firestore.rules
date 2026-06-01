@@ -1,0 +1,62 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net default catch-all: reject everything unless explicitly whitelisted
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // -- Global Helpers & Security Primitives --
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedEmail() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    // Custom helper checking if the user is a registered admin in the DB OR is the bootstrapped account owner
+    function isAdmin() {
+      return isSignedIn() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) || 
+        request.auth.token.email == "pragnyasri2204@gmail.com"
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 64 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // -- Rules for Site Content Homepage Document --
+    match /site_content/{documentId} {
+      // Public visitors can fetch specific content keys to see the landing page
+      allow get: if isValidId(documentId);
+      
+      // Prohibit search-scraping the site content directory
+      allow list: if false;
+
+      // Creating, updating, or deleting content is strictly restricted to verified administrators
+      allow create, update: if isAdmin() && isValidId(documentId);
+      allow delete: if isAdmin() && isValidId(documentId);
+    }
+
+    // -- Rules for Administrators mapping --
+    match /admins/{adminUid} {
+      // Only authorized admins can browse the roster format
+      allow get: if isAdmin() && isValidId(adminUid);
+      allow list: if false;
+      
+      // Creating, editing or deleting an admin is restricted to verified admins or bootstrap
+      allow write: if isAdmin() && isValidId(adminUid);
+    }
+  }
+}

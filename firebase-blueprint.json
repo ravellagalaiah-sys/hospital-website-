@@ -1,0 +1,75 @@
+{
+  "entities": {
+    "SiteContent": {
+      "title": "SiteContent",
+      "description": "Represents the editable content of the Dentora homepage including all sections, headings, images, and collections of items.",
+      "type": "object",
+      "properties": {
+        "hero": {
+          "type": "object",
+          "description": "Content of the dental clinic hero presentation slide"
+        },
+        "about": {
+          "type": "object",
+          "description": "Details about the clinic, editorial statements, and statistics"
+        },
+        "services": {
+          "type": "array",
+          "description": "List of editable services including pricing tags, descriptions, and pictures"
+        },
+        "whyChooseUs": {
+          "type": "object",
+          "description": "Key benefits and side images of the clinic"
+        },
+        "process": {
+          "type": "array",
+          "description": "4-step patient journey cards"
+        },
+        "testimonials": {
+          "type": "array",
+          "description": "Patient review cards, ratings, and avatar profile photos"
+        },
+        "faqs": {
+          "type": "array",
+          "description": "Editable list of frequently asked questions and answers"
+        },
+        "finalCta": {
+          "type": "object",
+          "description": "The closing highlight CTA banner contents"
+        },
+        "footer": {
+          "type": "object",
+          "description": "Footer metadata, contact phone, email and hours"
+        }
+      },
+      "required": ["hero", "about", "services", "whyChooseUs", "process", "testimonials", "faqs", "finalCta", "footer"]
+    },
+    "AdminConfig": {
+      "title": "AdminConfig",
+      "description": "Tracks users with administrative permissions who can modify the web application",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "The email of the administrator"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date and time of creation"
+        }
+      },
+      "required": ["email", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/site_content/{documentId}": {
+      "schema": "SiteContent",
+      "description": "Collection storing the single site presentation document synced across all devices"
+    },
+    "/admins/{adminUid}": {
+      "schema": "AdminConfig",
+      "description": "Determines which authenticated users have admin rights"
+    }
+  }
+}

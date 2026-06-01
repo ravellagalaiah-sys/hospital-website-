@@ -1,0 +1,6 @@
+{
+  "name": "Dentora Dental Clinic",
+  "description": "A modern, trustworthy, and conversion-focused single-page website for Dentora Dental Clinic.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
