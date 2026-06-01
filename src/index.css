@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --color-background: #060c14;
+  --color-foreground: #fafafa;
+  --color-surface-dark: #0a1520;
+  --color-surface-light: #eef2f7;
+  --color-teal-primary: #0bb8b8;
+  --color-teal-light: #ebf9f9;
+  --color-muted-grey: #7a8ba0;
+  --color-border-light: #dde4ee;
+  --color-warning-gold: #eab308;
+  --color-success-green: #16a34a;
+}
+
+@layer utilities {
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  }
+  .text-shadow-md {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-sans);
+}
+
+/* Custom scrollbar to keep it super premium */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060c14;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0bb8b833;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0bb8b866;
+}
